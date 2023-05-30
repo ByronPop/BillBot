@@ -16,4 +16,6 @@ In a few short tweets you can stay up to date on all that’s happening in you.
 ## How it Works
 
 <img width="593" alt="Screenshot 2023-05-29 at 8 35 02 PM" src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e">
-![Screenshot 2023-05-29 at 8 33 08 PM](https://github.com/ByronPop/BillBot/assets/33380363/36761a10-eacc-4fa2-a73a-25f93a575b16)
+
+
+![Screenshot 2023-05-29 at 8 33 08 PM](https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8)
