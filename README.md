@@ -153,8 +153,9 @@ To post to Twitter I use the Tweepy API. Before I can tweet however, I need to c
 - An opposition opinion
 - The affected population
 
-In order to post the analysis to Twitter I parse the block into Tweets and store them in an array. 
-```
+In order to post the analysis to Twitter I parse the block into Tweets and store them in an array.
+
+```python
 def create_tweets(text):
     try:
         # Find the indices of the section titles
@@ -232,3 +233,5 @@ def post_tweet_replies(client, text_array, tweet_id):
     return responses
 
 ```
+
+The script processes a bill, gets the ChatGPT analysis and posts the Tweet thread in ~5-10 seconds.
