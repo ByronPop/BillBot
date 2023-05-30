@@ -49,7 +49,7 @@ def fetch_congressional_bills(input_state):
 ```
 This gives me back a JSON list containing a list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API. However, they do provide a link to where you can find the complete bill. I iterate over the list of bills and then use a selenium webscraper function to navigate to the link and parse out the bill text. 
 
-```
+```python
 def scrape_congressional_bill(url):
     chromedriver_path = '/Users/byronpoplawski/Documents/Python/chromedriver_mac64/chromedriver'
     service = Service(executable_path=chromedriver_path)
@@ -82,7 +82,7 @@ def scrape_congressional_bill(url):
 ### ChatGPT Integration
 Once I have the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters) however through clever prompting you can get it to work pretty well (read more here)
 
-```
+```python
 def get_chatgpt_response(bill_text):
     content = """
     Personal: Imagine you are a helpful political science assistant who analyzes the HTML text of legislative bills and provides brief summaries and analyses.
@@ -182,7 +182,7 @@ Each Tweet must be less than 280 characters. Sometimes, ChatGPT fails to respond
 
 Once I have an acceptable set of Tweets, I post the initial Tweet:
 
-```
+```python
 def post_tweet(client, text):
     """Posts a tweet to Twitter.
 
@@ -202,9 +202,9 @@ def post_tweet(client, text):
 
 ```
 
-I then call a separate function to reply to the initial tweet and post chatGPT analysis (the array of Tweets I created earlier)
+I then built a separate function to reply to the initial Tweet and post the chatGPT analysis as a Twitter thread (the array of Tweets I created earlier)
 
-```
+```python
 def post_tweet_replies(client, text_array, tweet_id):
     """Posts a reply to a tweet.
 
