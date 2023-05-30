@@ -235,3 +235,8 @@ def post_tweet_replies(client, text_array, tweet_id):
 ```
 
 The script processes a bill, gets the ChatGPT analysis and posts the Tweet thread in ~5-10 seconds.
+
+## Future Work / Next Steps
+Currently, I must run the script manually each week to pull the data and post the Tweets. My next goal is to set up an AWS server that runs the Python script weekly and refreshes the data. 
+
+If you have any ideas or suggestions for how to make the bot more helpful let me know! 
