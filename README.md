@@ -1,5 +1,5 @@
 # BillBot
-A Twitter bot that helps you stay informed with local state legislation
+A Twitter bot to help you stay informed with the state legislature. Concise ChatGPT powered summaries and analysis of every bill introduced in every U.S. state.
 
 ## Background
 
@@ -13,8 +13,8 @@ That's where BillBot comes in! BillBot is a Twitter bot I created that helps you
 
 In a few short tweets you can stay up to date on all that’s happening in you.
 
+https://twitter.com/WABillBot
+
 <img src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e" width="450"/> <img src="https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8" width="450"/> 
-
-
 
 ## How it Works
