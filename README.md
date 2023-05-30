@@ -10,3 +10,10 @@ That's where BillBot comes in! BillBot is a Twitter bot I created that helps you
 - An advocate opinion
 - An opposition opinion
 - The affected population
+
+In a few short tweets you can stay up to date on all that’s happening in you.
+
+## How it Works
+
+<img width="593" alt="Screenshot 2023-05-29 at 8 35 02 PM" src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e">
+![Screenshot 2023-05-29 at 8 33 08 PM](https://github.com/ByronPop/BillBot/assets/33380363/36761a10-eacc-4fa2-a73a-25f93a575b16)
