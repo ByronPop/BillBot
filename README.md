@@ -23,7 +23,7 @@ I wrote the script for BillBot in Python and leveraged 3 public APIs and a websc
 ### Legislative Data
 Openstates.org (https://openstates.org/) offers a free public API that contains legislative data for every U.S state. To get the bill data, I call the /bills endpoint and retrieve all of the bills introduced in a state during the last week.
 
-```
+```python
 def fetch_congressional_bills(input_state):
     # set up API key and base URL
     headers = {'x-api-key': 'YOUR API KEY', 'accept': 'application/json'}
