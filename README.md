@@ -18,10 +18,10 @@ https://twitter.com/WABillBot
 <img src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e" width="450"/> <img src="https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8" width="450"/> 
 
 ## How it Works
-I wrote the script for BillBot in Python and leveraged 3 public APIs and some webscraping to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. 
+I wrote the script for BillBot in Python and leveraged 3 public APIs and a webscraper to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. The script runs for each state and updates a separate BillBot Twitter account for the specific state (e.g., CABillBot, MABillBot). 
 
 ### Legislative Data
-Openstates.org (https://openstates.org/) offers a free public API that contains legislative data for every U.S state. To get the Bill data, I call the /bills endpoint and retrieve all of the bills introduced in a state during the last week
+Openstates.org (https://openstates.org/) offers a free public API that contains legislative data for every U.S state. To get the bill data, I call the /bills endpoint and retrieve all of the bills introduced in a state during the last week.
 
 ```
 def fetch_congressional_bills(input_state):
@@ -47,7 +47,7 @@ def fetch_congressional_bills(input_state):
         return None
 
 ```
-This gives me back a JSON list containing a list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API. Howvever, they do offer a link to where you can find the complete bill. I set up a webscraper function using selenium to navigate to the link and parse out the bill text. 
+This gives me back a JSON list containing a list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API. However, they do provide a link to where you can find the complete bill. I iterate over the list of bills and then use a selenium webscraper function to navigate to the link and parse out the bill text. 
 
 ```
 def scrape_congressional_bill(url):
@@ -144,10 +144,91 @@ def get_chatgpt_response(bill_text):
                     "See the bill link in the original tweet for more details about the bill"
             return reply
 
+```
+
+### Posting to Twitter
+To post to Twitter I use the Tweepy API. Before I can tweet however, I need to clean the data response from ChatGPT. ChatGPT responds with a single block of text containing:
+- A brief summary of the bill
+- An advocate opinion
+- An opposition opinion
+- The affected population
+
+In order to post the analysis to Twitter I parse the block into Tweets and store them in an array. 
+```
+def create_tweets(text):
+    try:
+        # Find the indices of the section titles
+        summary_index = text.index("Summary:")
+        advocate_index = text.index("Advocate:")
+        opposition_index = text.index("Opposition:")
+        affected_population_index = text.index("Affected Population:")
+
+        # Extract the sections using slicing
+        summary = text[summary_index:advocate_index].strip()
+        advocate = text[advocate_index:opposition_index].strip()
+        opposition = text[opposition_index:affected_population_index].strip()
+        affected_population = text[affected_population_index:].strip()
+
+        # Return the parsed sections as an array
+        return [summary, advocate, opposition, affected_population]
+
+    except ValueError:
+        # Handle the case when section titles are not found
+        print("Error: Section titles not found in the chatGPT response.")
+        return [text]
+```
+
+Each Tweet must be less than 280 characters. Sometimes, ChatGPT fails to respond with an analysis that is <280 characters so I implemented a while loop to check the length of each Tweet and retry the GPT integration until I get an analysis where each section is the appropriate length. 
+
+Once I have an acceptable set of Tweets, I post the initial Tweet:
+
+```
+def post_tweet(client, text):
+    """Posts a tweet to Twitter.
+
+  Args:
+    text: The text of the tweet.
+
+  Returns:
+    A Tweepy Response object.
+    :param text:
+    :param client:
+  """
+
+    # Post a tweet
+    response = client.create_tweet(text=text)
+
+    return response
 
 ```
 
+I then call a separate function to reply to the initial tweet and post chatGPT analysis (the array of Tweets I created earlier)
 
-### Twitter Integration
+```
+def post_tweet_replies(client, text_array, tweet_id):
+    """Posts a reply to a tweet.
 
+    Args:
+        text: The text array containing the tweets you want to reply with
+        tweet_id: The ID of the tweet to reply to.
 
+    Returns:
+        A Tweepy Response object.
+        :param client:
+        :param tweet_id:
+        :param text_array:
+  """
+    # Post a tweet
+    responses = []
+    tweetNumber = 1
+    for text in text_array:
+        print("Sending tweet response: " + str(tweetNumber) + " of length: " + str(len(text)))
+        print(text)
+        response = client.create_tweet(in_reply_to_tweet_id=tweet_id, text=text)
+        responses.append(response)
+        time.sleep(2)
+        tweetNumber += 1
+
+    return responses
+
+```
