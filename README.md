@@ -1,12 +1,13 @@
 # BillBot
 A Twitter bot to help you stay informed with the state legislature. Concise ChatGPT powered summaries and analysis of every bill introduced in every U.S. state.
 
-# Table of Contents
+## Table of Contents
 
 - [Background](#background)
-- [How it Works](#how-it-works)
-- [ChatGPT Integration](#chatgpt-integration)
-- [Posting to Twitter](#posting-to-twitter)
+- [How BillBot Works](#how-it-works)
+ - [Pulling Legislative Data](#pulling-legislative-data)
+ - [ChatGPT Integration](#chatgpt-integration)
+ - [Posting to Twitter](#posting-to-twitter)
 - [Future Work / Next Steps](#future-work--next-steps)
 
 
@@ -27,11 +28,12 @@ https://twitter.com/WABillBot
 
 <img src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e" width="450"/> <img src="https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8" width="450"/> 
 
-<a name="how-it-works"></a>
+<a name="how-billbot-works"></a>
 ## How it Works
 I wrote the script for BillBot in Python and leveraged 3 public APIs and a webscraper to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. The script runs for each state and updates a separate BillBot Twitter account for the specific state (e.g., CABillBot, MABillBot). 
 
-### Legislative Data
+<a name="pulling-legislative-data"></a>
+### Pulling Legislative Data
 Openstates.org (https://openstates.org/) offers a free public API that contains legislative data for every U.S state. To get the bill data, I call the /bills endpoint and retrieve all of the bills introduced in a state during the last week.
 
 ```python
@@ -89,7 +91,7 @@ def scrape_congressional_bill(url):
     return html_content
 
 ```
-
+<a name="chatgpt-integration"></a>
 ### ChatGPT Integration
 Once I have the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters) however through clever prompting you can get it to work pretty well (read more here)
 
@@ -156,7 +158,7 @@ def get_chatgpt_response(bill_text):
             return reply
 
 ```
-
+<a name="posting-to-twitter"></a>
 ### Posting to Twitter
 To post to Twitter I use the Tweepy API. Before I can tweet however, I need to clean the data response from ChatGPT. ChatGPT responds with a single block of text containing:
 - A brief summary of the bill
