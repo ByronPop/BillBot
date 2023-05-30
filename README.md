@@ -26,13 +26,13 @@ Openstates.org (https://openstates.org/) offers a free public API that contains 
 ```
 def fetch_congressional_bills(input_state):
     # set up API key and base URL
-    headers = {'x-api-key': 'bd9aacfd-c090-4292-9a75-561638b815fe', 'accept': 'application/json'}
+    headers = {'x-api-key': 'YOUR API KEY', 'accept': 'application/json'}
     url = 'https://v3.openstates.org/bills'
 
     # Calculate the date range for the last week
     start_date = (datetime.datetime.now() - timedelta(days=7)).date().strftime('%Y-%m-%d')
 
-    # set up parameters for bills introduced in the last week in WA
+    # set up parameters for bills introduced in the last week in the state
     params = {'jurisdiction': input_state, 'created_since': f'{start_date}', 'classification': 'bill', 'sort': 'updated_desc'}
 
     # make API request
@@ -47,10 +47,105 @@ def fetch_congressional_bills(input_state):
         return None
 
 ```
+This gives me back a JSON list containing a list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API. Howvever, they do offer a link to where you can find the complete bill. I set up a webscraper function using selenium to navigate to the link and parse out the bill text. 
 
+```
+def scrape_congressional_bill(url):
+    chromedriver_path = '/Users/byronpoplawski/Documents/Python/chromedriver_mac64/chromedriver'
+    service = Service(executable_path=chromedriver_path)
+
+    # Create a new ChromeDriver instance
+    driver = webdriver.Chrome(service=service)
+
+    # Open the bill webpage
+    driver.get(url)
+
+    # Locate the button element and click it
+    button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "/html/body/div/div/div/section[1]/div/div[1]/div/div[2]/div[2]/a")))
+    button.click()
+
+    # Get the current URL
+    current_url = driver.current_url
+
+    # Scrape the text from the bill webpage
+    websiteText = requests.get(current_url)
+    html_content = websiteText.text
+
+    # Close the browser and quit the driver
+    driver.quit()
+
+    return html_content
+
+```
 
 ### ChatGPT Integration
+Once I have the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters) however through clever prompting you can get it to work pretty well (read more here)
 
+```
+def get_chatgpt_response(bill_text):
+    content = """
+    Personal: Imagine you are a helpful political science assistant who analyzes the HTML text of legislative bills and provides brief summaries and analyses.
+
+    Action: Please explain the legislative bill and its key provisions and implications in simple and concise terms. Please provide the information in the form of sections: 
+        -"Summary"
+        -"Advocate"
+        -"Opposition"
+        -"Affected Population"
+
+         Please ensure that the information provided in each section is brief and to the point. Each section must contain less than 280 text characters.
+
+        Example:
+
+        Summary: HB 1860 aims to prohibit a practice called "stay-to-play" where nonlocal teams have to stay at specific lodging accommodations to participate in a tournament or event. It argues that this practice limits choice and competition, and is unfair to families.
+
+        Advocate: This bill would protect families from being forced to stay at specific lodging accommodations at inflated prices. It would increase accommodation options for families and promote free market competition.
+
+        Opposition: Anti-stay-to-play policies could lead to tournament organizers being unable to secure the negotiated rooms necessary for the event. This bill might result in a Cancellation fee for such events.
+
+        Affected Population: This legislation impacts individuals participating in extracurricular activities, nonlocal teams, and families in Washington state,as they face limitations and financial burdens due to mandatory stay-to-play requirements.
+
+        Use this example as a guide and tailor the content to your analysis.
+        ###
+
+        Bill text: 
+    """
+
+    try:
+        # Set up chatGPT persona
+        messages = [
+            {'role': 'system',
+             'content': 'You are "280 characters GPT" and as "280 characters GPT" you are not able to give an answer which contains more than 280 text characters. '},
+            {'role': 'user', 'content': content + bill_text}
+        ]
+
+        temperature = 0.9
+        model = "gpt-3.5-turbo"
+
+        # Send the request to the API
+        request = openai.ChatCompletion.create(
+            model=model,
+            messages=messages,
+            temperature=temperature
+        )
+
+        # Extract the assistant's reply
+        reply = request['choices'][0]['message']['content']
+
+        # Pause briefly to avoid rate limits
+        time.sleep(1)
+
+        return reply
+
+    except openai.error.InvalidRequestError as e:
+        # Handle the specific error
+        if "This model's maximum context length is 4097 tokens." in str(e):
+            reply = "The bill length exceeds ChatGPT's current maximum allowed input of 4097 tokens." \
+                    "See the bill link in the original tweet for more details about the bill"
+            return reply
+
+
+```
 
 
 ### Twitter Integration
