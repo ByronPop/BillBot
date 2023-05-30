@@ -5,9 +5,9 @@ A Twitter bot to help you stay informed with the state legislature. Concise Chat
 
 * [Background](#background)
 * [How BillBot Works](#how-it-works)
- * [Pulling Legislative Data](#pulling-legislative-data)
- * [ChatGPT Integration](#chatgpt-integration)
- * [Posting to Twitter](#posting-to-twitter)
+ *  [Pulling Legislative Data](#pulling-legislative-data)
+ *  [ChatGPT Integration](#chatgpt-integration)
+ *  [Posting to Twitter](#posting-to-twitter)
 * [Future Work / Next Steps](#future-work--next-steps)
 
 
