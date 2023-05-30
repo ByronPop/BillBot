@@ -1,6 +1,16 @@
 # BillBot
 A Twitter bot to help you stay informed with the state legislature. Concise ChatGPT powered summaries and analysis of every bill introduced in every U.S. state.
 
+# Table of Contents
+
+- [Background](#background)
+- [How it Works](#how-it-works)
+- [ChatGPT Integration](#chatgpt-integration)
+- [Posting to Twitter](#posting-to-twitter)
+- [Future Work / Next Steps](#future-work--next-steps)
+
+
+<a name="background"></a>
 ## Background
 
 Hi everyone, my name is Byron and if you know me you know that I love chatGPT. Like many, I have a casual interest in politics, particularly local politics, as it tends to more directly impact my life. However, staying informed about newly introduced legislation can be challenging. Local news coverage is sparse, and who has time to decipher lengthy legislative bills?
@@ -17,6 +27,7 @@ https://twitter.com/WABillBot
 
 <img src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e" width="450"/> <img src="https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8" width="450"/> 
 
+<a name="how-it-works"></a>
 ## How it Works
 I wrote the script for BillBot in Python and leveraged 3 public APIs and a webscraper to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. The script runs for each state and updates a separate BillBot Twitter account for the specific state (e.g., CABillBot, MABillBot). 
 
@@ -235,7 +246,7 @@ def post_tweet_replies(client, text_array, tweet_id):
 ```
 
 The script processes a bill, gets the ChatGPT analysis and posts the Tweet thread in ~5-10 seconds.
-
+<a name="future-work--next-steps"></a>
 ## Future Work / Next Steps
 Currently, I must run the script manually each week to pull the data and post the Tweets. My next goal is to set up an AWS server that runs the Python script weekly and refreshes the data. 
 
