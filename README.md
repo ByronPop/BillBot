@@ -252,6 +252,8 @@ def post_tweet_replies(client, text_array, tweet_id):
 The script processes a bill, gets the ChatGPT analysis and posts the Tweet thread in ~5-10 seconds.
 <a name="future-work--next-steps"></a>
 ## Future Work / Next Steps
-Currently, I must run the script manually each week to pull the data and post the Tweets. My next goal is to set up an AWS server that runs the Python script weekly and refreshes the data. 
+There are two main limitations with BillBot that I want to improve:
+1. Limited bill length - ChatGPT's current available model (GPT 3.5) only allows accepts 4,097 tokens which means that it can only review relatively short bills (~< 4000 words). OpenAI recently released GPT 4 which extends the number of tokens to 40,000. Once that is available I will upgrade the script so that BillBot can begin analyzing longer bills. 
+3. It runs manually - Currently, I must run the script manually each week to pull the data and post the Tweets. My next goal is to set up an AWS server that runs the Python script weekly and refreshes the data. 
 
 If you have any ideas or suggestions for how to make the bot more helpful let me know! 
