@@ -28,7 +28,7 @@ https://twitter.com/WABillBot
 
 <img src="https://github.com/ByronPop/BillBot/assets/33380363/7b50d559-6a95-49e8-b10f-b61b7e0c194e" width="400"/> <img src="https://github.com/ByronPop/BillBot/assets/33380363/5a75f609-4a7c-4d4a-9bec-e439f21eb2d8" width="400"/> 
 
-<img src= "https://github.com/ByronPop/BillBot/assets/33380363/417c7a3a-617f-49b7-8d1e-6ae102971070" width="450"/>
+<img src= "https://github.com/ByronPop/BillBot/assets/33380363/417c7a3a-617f-49b7-8d1e-6ae102971070"/>
 
 <a name="how-billbot-works"></a>
 ## How BillBot Works
