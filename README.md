@@ -251,9 +251,22 @@ def post_tweet_replies(client, text_array, tweet_id):
 
 The script processes a bill, gets the ChatGPT analysis and posts the Tweet thread in ~5-10 seconds.
 <a name="future-work--next-steps"></a>
+
 ## Future Work / Next Steps
 There are two main limitations with BillBot that I want to improve:
 1. Limited bill length - ChatGPT's current available model (GPT 3.5) only allows accepts 4,097 tokens which means that it can only review relatively short bills (~< 4000 words). OpenAI recently released GPT 4 which extends the number of tokens to 40,000. Once that is available I will upgrade the script so that BillBot can begin analyzing longer bills. 
 3. It runs manually - Currently, I must run the script manually each week to pull the data and post the Tweets. My next goal is to set up an AWS server that runs the Python script weekly and refreshes the data. 
 
 If you have any ideas or suggestions for how to make the bot more helpful let me know! 
+
+## ChatGPT Tips to Help You Start a Project
+When I initially developed the idea for BillBot, I did not know where I could get legislative data or how to post to ChatGPT or Twitter. I used ChatGPT to conduct my research and help write the code that runs the bot. Here are a few ways I used ChatGPT:
+
+1. Finding data sources - Prompt: I want to retrieve a list of recently introduced legislative bills from each state in the U.S. What free API services are available? Which do you recommend? 
+![image](https://github.com/ByronPop/BillBot/assets/33380363/d962b3dc-6c55-4f3c-b7e6-bfc78716be7f)
+
+2. Setting up the API request to pull data from a the OpenStates API 
+ - Prompt: I want to retrieve a list of recently introduced legislative bills from each state in the U.S. I want to use the OpenStates API to do so. Write me a python script that connects to their API and retrieves all bills introduced in the state of Washington in the last week. 
+![image](https://github.com/ByronPop/BillBot/assets/33380363/e55640da-caf4-4efb-8792-f78e84814822)
+
+
