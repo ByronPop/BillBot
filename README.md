@@ -9,6 +9,7 @@ A Twitter bot to help you stay informed with the state legislature. Concise Chat
      * [ChatGPT Integration](#chatgpt-integration)
      * [Posting to Twitter](#posting-to-twitter)
 * [Future Work / Next Steps](#future-work--next-steps)
+* [ChatGPT Tricks to Help You Start a Project](#chatgpt-tricks)
 
 
 <a name="background"></a>
@@ -259,6 +260,7 @@ There are two main limitations with BillBot that I want to improve:
 
 If you have any ideas or suggestions for how to make the bot more helpful let me know! 
 
+<a name="chatgpt-tricks"></a>
 ## ChatGPT Tips to Help You Start a Project
 When I initially developed the idea for BillBot, I did not know where I could get legislative data or how to post to ChatGPT or Twitter. I used ChatGPT to conduct my research and help write the code that runs the bot. Here are a few ways I used ChatGPT:
 
