@@ -17,7 +17,7 @@ A Twitter bot to help you stay informed with the state legislature. Concise Chat
 
 Hi everyone, my name is Byron and if you know me you know that I love chatGPT. I enjoy staying up to date with politics, particularly local legislation, as it tends to more directly impact my life. However, staying informed about new bills can be challenging. Local news coverage is sparse, and who has time to decipher a lengthy legislative text?
 
-That's where BillBot comes in! BillBot is a Twitter bot I created that helps you stay informed with local legislation.  Each week, BillBot finds the latest bills that have been introduced in your state, passes the bill text to chatGPT, and then posts an analysis of the legislation on Twitter in the form of a succinct thread. The analysis includes:
+That's where BillBot comes in! BillBot is a Twitter bot I created that helps you stay informed with local legislation.  Each week, BillBot finds the latest bills that have been introduced in your state, passes the bill text to chatGPT, and then posts an analysis of the legislation on Twitter in the form of a concise thread. The analysis includes:
 - A brief summary of the bill
 - An advocate opinion
 - An opposition opinion
@@ -63,7 +63,7 @@ def fetch_congressional_bills(input_state):
         return None
 
 ```
-This gives me back a JSON list containing a list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API. However, they do provide a link to where you can find the complete bill. I iterate over the list of bills and then use a selenium webscraper function to navigate to the link and parse out the bill text. 
+The /bills endpoint returns a JSON list of bills and various metadata. Unfortunately, Openstates.org does not include the full bill text in their API payload. However, they do provide a link to where you can find the complete bill. I iterate over the list of bills and then use a Selenium webscraper function to navigate to the link and parse out the bill text. 
 
 ```python
 def scrape_congressional_bill(url):
@@ -96,7 +96,7 @@ def scrape_congressional_bill(url):
 ```
 <a name="chatgpt-integration"></a>
 ### ChatGPT Integration
-Once I have the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters) however through clever prompting you can get it to work pretty well (read more here)
+Once I have parsed the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters due to the nature of how LLMs work. However through clever prompting you can get the model to return a concise analysis most of the time (read more [here]([url](https://www.reddit.com/r/ChatGPT/comments/104bnak/chatgpt_lies_about_character_limit_for_responses/))
 
 ```python
 def get_chatgpt_response(bill_text):
