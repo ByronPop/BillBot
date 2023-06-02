@@ -33,7 +33,7 @@ https://twitter.com/WABillBot
 
 <a name="how-billbot-works"></a>
 ## How BillBot Works
-I wrote the script for BillBot in Python and leveraged 3 public APIs and a webscraper to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. The script runs for each state and updates a separate BillBot Twitter account for the specific state (e.g., CABillBot, MABillBot). 
+Billbot uses 3 public APIs and a webscraper function to pull the legislative bill data, pass it to ChatGPT and then post the analysis to Twitter. The script runs for each state and updates a separate BillBot Twitter account for the specific state so that folks can subscribe to only their state legislation (e.g., CABillBot, MABillBot). 
 
 <a name="pulling-legislative-data"></a>
 ### Pulling Legislative Data
