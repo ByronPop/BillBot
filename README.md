@@ -96,7 +96,7 @@ def scrape_congressional_bill(url):
 ```
 <a name="chatgpt-integration"></a>
 ### ChatGPT Integration
-Once I have parsed the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters due to the nature of how LLMs work. However through clever prompting you can get the model to return a concise analysis most of the time (read more [here]([url](https://www.reddit.com/r/ChatGPT/comments/104bnak/chatgpt_lies_about_character_limit_for_responses/))
+Once I have parsed the full bill text, I pass it to ChatGPT's API. I spent a lot of time tryng to hone the promp to get ChatGPT to respond with a concise analysis. I discovered that ChatGPT cannot limit the number of characters it returns (e.g., <280 characters due to the nature of how LLMs work. However through clever prompting you can get the model to return a concise analysis most of the time (read more here: https://www.reddit.com/r/ChatGPT/comments/104bnak/chatgpt_lies_about_character_limit_for_responses/)
 
 ```python
 def get_chatgpt_response(bill_text):
@@ -163,13 +163,13 @@ def get_chatgpt_response(bill_text):
 ```
 <a name="posting-to-twitter"></a>
 ### Posting to Twitter
-To post to Twitter I use the Tweepy API. Before I can tweet however, I need to clean the data response from ChatGPT. ChatGPT responds with a single block of text containing:
+To post to Twitter, I use the Tweepy API. Before I can Tweet however, I need to clean the data response from ChatGPT. ChatGPT responds with a single block of text containing:
 - A brief summary of the bill
 - An advocate opinion
 - An opposition opinion
 - The affected population
 
-In order to post the analysis to Twitter I parse the block into Tweets and store them in an array.
+In order to post the analysis to Twitter I parse the block into Tweets and store them in an array so I can post them individually.
 
 ```python
 def create_tweets(text):
@@ -195,7 +195,7 @@ def create_tweets(text):
         return [text]
 ```
 
-Each Tweet must be less than 280 characters. Sometimes, ChatGPT fails to respond with an analysis that is <280 characters so I implemented a while loop to check the length of each Tweet and retry the GPT integration until I get an analysis where each section is the appropriate length. 
+Each Tweet must be less than 280 characters. Sometimes, ChatGPT fails to respond with an analysis that is <280 characters so I implemented a while loop to check the length of each Tweet and retry the ChatGPT endpoint until I get an analysis where each section is the appropriate length. 
 
 Once I have an acceptable set of Tweets, I post the initial Tweet:
 
@@ -219,7 +219,7 @@ def post_tweet(client, text):
 
 ```
 
-I then built a separate function to reply to the initial Tweet and post the chatGPT analysis as a Twitter thread (the array of Tweets I created earlier)
+I then built a separate function to reply to the initial Tweet and post the ChatGPT analysis as a Twitter thread (the array of Tweets I created earlier).
 
 ```python
 def post_tweet_replies(client, text_array, tweet_id):
